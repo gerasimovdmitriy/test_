@@ -20,12 +20,12 @@ async function login(req, res) {
 
         if (!getUserRes) {
             message = 'Не удалось авторизоваться. Проверьте емейл или пароль';
-            return res.status(401).send(message);
+            return res.status(400).send(message);
         }
 
         if (!await passwordUtils.comparePassword(body.password, getUserRes.password)) {
             message = 'Не удалось авторизоваться. Проверьте емейл или пароль';
-            return res.status(401).send(message);
+            return res.status(400).send(message);
         }
 
         req.session.email = req.body.email;

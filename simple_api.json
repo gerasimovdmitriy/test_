@@ -1,0 +1,168 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Simple  API",
+    "description": "This is a simple API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/registration": {
+      "post": {
+        "description": "Регистрация нового полльзователя",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userItem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Новый пользователь создан"
+          },
+          "400": {
+            "description": "Ошибка в отправленных данных"
+          },
+          "500": {
+            "description": "Ошибка на сервере"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "Авторизация пользователя",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userItem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Пользователь авторизован",
+            "headers": {
+              "Set-Cookie": {
+                "description": "connect.sid=s%3ADCjIjBNys-pY7YGos4OhE_JNhxLVp3A-.ZCenqTUb%2BlpBGaDYsiLL4p%2FzxhPFzEZjWhhhr%2FXlGoA; Path=/; Domain=localhost; HttpOnly;",
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                },
+                "example": "connect.sid=s%3ADCjIjBNys-pY7YGos4OhE_JNhxLVp3A-.ZCenqTUb%2BlpBGaDYsiLL4p%2FzxhPFzEZjWhhhr%2FXlGoA; Path=/; Domain=localhost; HttpOnly;"
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка в отправленных данных"
+          },
+          "500": {
+            "description": "Ошибка на сервере"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "description": "logout пользователя",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Ошибка в отправленных данных"
+          },
+          "500": {
+            "description": "Ошибка на сервере"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/refreshPassword": {
+      "put": {
+        "description": "Смена пароля пользователя",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updatePasswordItem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Ошибка в отправленных данных"
+          },
+          "500": {
+            "description": "Ошибка на сервере"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "userItem": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "test@test.test"
+          },
+          "password": {
+            "type": "string",
+            "example": "123"
+          }
+        }
+      },
+      "updatePasswordItem": {
+        "required": [
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "example": "123"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "name": "connect.sid",
+        "in": "cookie"
+      }
+    }
+  }
+}
