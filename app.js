@@ -18,7 +18,7 @@ server.on('error', async (error) => {
     console.error(`Server error:  ${error}`)
 });
 server.on('listening', async () => {
-    console.log(`server listening at http://localhost:${port} | ${process.env.NODE_ENV}`)
+    console.log(`server listening at http://localhost:${port}`)
 });
 
 
